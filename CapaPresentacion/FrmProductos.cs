@@ -48,6 +48,21 @@ namespace CapaPresentacion
             }
         }
 
+        private void CargarProductos(string condicion=""){
+            BL_Producto Logica = new BL_Producto(Config.getConnectionString);
+            List<EntidadProducto> Lista;
+            try{
+                Lista = Logica.ListarProducto(condicion);
+                if (Lista.Count > 0){
+                    grdLista.DataSource = Lista;
+                }
+            }
+            catch (Exception e){
+
+                throw e;
+            }
+        }
+
         private EntidadProducto GenerarEntidad()
         {
             EntidadProducto entidad;
@@ -77,21 +92,29 @@ namespace CapaPresentacion
             EntidadProducto Producto;
             BL_Producto Logica = new BL_Producto(Config.getConnectionString);
             decimal Precio;
+            int retorno;
             try{
                 if (!string.IsNullOrEmpty(txtDescripcion.Text) && !string.IsNullOrEmpty(txtPrecio.Text)){
                     if (decimal.TryParse(txtPrecio.Text, out Precio)){
                         Producto = GenerarEntidad();
                         //TODO: Llamar a los métodos de insertar y modificar.
+                        retorno = Logica.Insertar(Producto);
+                        if (retorno > 0){
+                            if (retorno == 1) {
+                                MessageBox.Show("El producto se registró satisfactoriamente", "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            } else if (retorno == 2){
+                                MessageBox.Show("El producto se modificó satisfactoriamente", "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            }
+                            Limpiar();
+                            //TODO: Actualizar la tabla
+                        }
+                        else{
+                            MessageBox.Show("No fue posible realizar la operación", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
                         if (Producto.Existe){
                             //TODO: Modificar el producto
                         } else {
-                            if (Logica.Insertar(Producto) > 0){
-                                MessageBox.Show("El producto se registró satisfactoriamente", "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                Limpiar();
-                                //TODO: Actualizar la tabla
-                            } else {
-                                MessageBox.Show("No fue posible insertar el producto", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            }
+                            
                         }
                     } else {
                         MessageBox.Show("El precio requiere un valor númerico", "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -104,6 +127,50 @@ namespace CapaPresentacion
             {
 
                 MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void FrmProductos_Load(object sender, EventArgs e)
+        {
+            try{
+                CargarProductos("");
+            }
+            catch (Exception ex){
+
+                throw ex;
+            }
+        }
+
+        private void grdLista_CellDoubleClick(object sender, DataGridViewCellEventArgs e){
+            int id = 0;
+            try{
+                id = Convert.ToInt32(grdLista.SelectedRows[0].Cells[0].Value);
+                BuscarProducto(id);
+            }
+            catch (Exception){
+
+                throw;
+            }
+        }
+
+        private void BuscarProducto(int ID){
+            EntidadProducto Producto = new EntidadProducto();
+            BL_Producto Logica = new BL_Producto();
+            Logica.CadenaConexion = Config.getConnectionString;
+            string condicion = $"Id={ID}";
+            try{
+                Producto = Logica.ObtenerProducto(condicion);
+                if (Producto.Existe) {
+                    txtID.Text = Producto.Id.ToString();
+                    txtDescripcion.Text = Producto.Descripcion.ToString();
+                    txtCantidad.Value = Producto.Cantidad;
+                    txtPrecio.Text = Producto.Precio.ToString();
+                    EntidadBuscada = Producto;
+                }
+            }
+            catch (Exception){
+
+                throw;
             }
         }
     }
