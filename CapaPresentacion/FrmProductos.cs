@@ -16,6 +16,7 @@ namespace CapaPresentacion
     {
         //Variable global que crea la instancia de la entidad que se desea buscar
         private EntidadProducto EntidadBuscada = new EntidadProducto();
+        private static FrmBuscarProducto buscarProducto;
         public FrmProductos()
         {
             InitializeComponent();
@@ -106,6 +107,7 @@ namespace CapaPresentacion
                                 MessageBox.Show("El producto se modificó satisfactoriamente", "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             }
                             Limpiar();
+                            CargarProductos();
                             //TODO: Actualizar la tabla
                         }
                         else{
@@ -166,11 +168,51 @@ namespace CapaPresentacion
                     txtCantidad.Value = Producto.Cantidad;
                     txtPrecio.Text = Producto.Precio.ToString();
                     EntidadBuscada = Producto;
+                } else {
+                    MessageBox.Show("Imposible cargar los datos, ya que el producto ha tenido cambios", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    CargarProductos();
                 }
             }
             catch (Exception){
 
                 throw;
+            }
+        }
+
+        private void btnBuscar_Click(object sender, EventArgs e)
+        {
+            buscarProducto = new FrmBuscarProducto();
+            buscarProducto.Aceptar += new EventHandler(Aceptar);
+            buscarProducto.Show();
+        }
+
+        private void Aceptar(object ID, EventArgs e){
+            try{
+                int IDProducto = (int)ID;
+                if (IDProducto > -1){
+                    BuscarProducto(IDProducto);
+                }
+            }
+            catch (Exception ex){
+
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnEliminar_Click(object sender, EventArgs e)
+        {
+            BL_Producto LogicaProducto = new BL_Producto(Config.getConnectionString);
+            try{
+                if (!string.IsNullOrEmpty(txtID.Text)){
+                    LogicaProducto.Eliminar(Convert.ToInt32(txtID.Text));
+                    MessageBox.Show("Operación realizada satisfactoriamente", "Eliminación exitosa", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    Limpiar();
+                    CargarProductos();
+                }
+            }
+            catch (Exception ex){
+
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

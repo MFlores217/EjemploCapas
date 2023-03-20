@@ -169,6 +169,7 @@ namespace CapaPresentacion
             this.btnEliminar.TabIndex = 7;
             this.btnEliminar.Text = "&Eliminar";
             this.btnEliminar.UseVisualStyleBackColor = false;
+            this.btnEliminar.Click += new System.EventHandler(this.btnEliminar_Click);
             // 
             // btnSalir
             // 
@@ -190,6 +191,7 @@ namespace CapaPresentacion
             this.btnBuscar.TabIndex = 4;
             this.btnBuscar.Text = "&Buscar";
             this.btnBuscar.UseVisualStyleBackColor = false;
+            this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
             // 
             // grdLista
             // 

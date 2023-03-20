@@ -86,5 +86,26 @@ namespace BussisnesLogic
 
             return resultado;
         }
+
+        public bool Eliminar(int IDProducto){
+            bool resultado = false;
+            AD_Producto AccesoDatos = new AD_Producto(_cadenaConexion);
+            AD_Detalle AccesoDetalle = new AD_Detalle(_cadenaConexion);
+
+            try{
+                string condicion = $"PRODUCTOID={IDProducto}";
+                if (AccesoDetalle.ListarDetalles(condicion).Count > 0){
+                    resultado = AccesoDatos.Eliminar(IDProducto, false);
+                } else {
+                    resultado = AccesoDatos.Eliminar(IDProducto, true);
+                }
+            }
+            catch (Exception e){
+
+                throw e;
+            }
+
+            return resultado;
+        }
     }
 }

@@ -94,9 +94,9 @@ namespace AccesoDatos
             SqlCommand comando = new SqlCommand();
             comando.Connection = cnn;
             SqlDataReader datos;
-            string sentencia = "SELECT ID, DESCRIPCION, CANTIDAD, PRECIO FROM PRODUCTOS";
+            string sentencia = "SELECT ID, DESCRIPCION, CANTIDAD, PRECIO FROM PRODUCTOS WHERE BORRADO = 0 ";
             if (!string.IsNullOrEmpty(condicion)){
-                sentencia = $"{sentencia} where {condicion}";
+                sentencia = $"{sentencia} AND {condicion}";
             }
             comando.CommandText = sentencia;
             try{
@@ -125,9 +125,9 @@ namespace AccesoDatos
             SqlConnection cnn = new SqlConnection(_cadenaConexion);
             SqlDataAdapter adapter;
             List<EntidadProducto> productos= new List<EntidadProducto>();
-            string sentencia = "SELECT ID, DESCRIPCION, CANTIDAD, PRECIO FROM PRODUCTOS";
+            string sentencia = "SELECT ID, DESCRIPCION, CANTIDAD, PRECIO FROM PRODUCTOS WHERE BORRADO = 0";
             if (!string.IsNullOrEmpty(condicion)){
-                sentencia = $"{sentencia} where {condicion}";
+                sentencia = $"{sentencia} AND {condicion}";
             }
             try{
                 adapter = new SqlDataAdapter(sentencia, cnn);
@@ -150,5 +150,39 @@ namespace AccesoDatos
             
             return productos;
         }
+
+        public bool Eliminar(int ID, bool tipo){
+            bool resultado = false;
+            SqlConnection cnn = new SqlConnection(_cadenaConexion);
+            SqlCommand comando = new SqlCommand();
+            string sentencia;
+            comando.Connection = cnn;
+            if (tipo){
+                //Borrado físico
+                sentencia = "DELETE PRODUCTOS WHERE ID = @ID";
+            } else {
+                sentencia = "UPDATE PRODUCTOS SET BORRADO = 1 WHERE ID=@ID";
+            }
+            comando.CommandText = sentencia;
+            comando.Parameters.AddWithValue("@ID", ID);
+            try{
+                cnn.Open();
+                if (comando.ExecuteNonQuery() > 0){
+                    resultado = true;
+                }
+                cnn.Close();
+            }
+            catch (Exception ex){
+
+                throw ex;
+            }
+            finally {
+                cnn.Dispose();
+                comando.Dispose();
+            }
+
+            return resultado;
+        }
+
     }
 }
