@@ -47,7 +47,7 @@ namespace Entidades
             PrecioVenta = 0;
             SubTotal = 0;
             Descripcion = string.Empty;
-            Existe= false;
+            Existe = false;
         }
     }
 }

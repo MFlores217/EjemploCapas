@@ -81,6 +81,7 @@ namespace CapaPresentacion
             this.mnuVentas.Name = "mnuVentas";
             this.mnuVentas.Size = new System.Drawing.Size(180, 22);
             this.mnuVentas.Text = "Ventas";
+            this.mnuVentas.Click += new System.EventHandler(this.mnuVentas_Click);
             // 
             // mnuAyuda
             // 
@@ -93,7 +94,7 @@ namespace CapaPresentacion
             // mnuAcercaDe
             // 
             this.mnuAcercaDe.Name = "mnuAcercaDe";
-            this.mnuAcercaDe.Size = new System.Drawing.Size(180, 22);
+            this.mnuAcercaDe.Size = new System.Drawing.Size(136, 22);
             this.mnuAcercaDe.Text = "Acerca De...";
             // 
             // mnuSalir

@@ -33,17 +33,19 @@ namespace AccesoDatos
                 adapter = new SqlDataAdapter(sentencia, cnn);
                 adapter.Fill(datos, "VENTAS");
                 //LINQ: Lenguaje de C# para manejo de consultas (Language Integrated Query)
-                venta = (from DataRow registro in datos.Tables["VENTAS"].Rows
-                           select new EntidadVenta()
-                           {
-                               ID = Convert.ToInt32(registro[0]),
-                               ClienteID = Convert.ToInt32(registro[1]),
-                               NombreCliente = registro[2].ToString(),
-                               Fecha = Convert.ToDateTime(registro[3]),
-                               Tipo = registro[4].ToString(),
-                               Estado = registro[5].ToString(),
-                               Existe = true
-                           }).FirstOrDefault();
+                if (datos.Tables[0].Rows.Count > 0){
+                    venta = (from DataRow registro in datos.Tables[0].Rows
+                             select new EntidadVenta()
+                             {
+                                 ID = Convert.ToInt32(registro[0]),
+                                 ClienteID = Convert.ToInt32(registro[1]),
+                                 NombreCliente = registro[2].ToString(),
+                                 Fecha = Convert.ToDateTime(registro[3]),
+                                 Tipo = registro[4].ToString(),
+                                 Estado = registro[5].ToString(),
+                                 Existe = true
+                             }).FirstOrDefault();
+                }
             }
             catch (Exception e)
             {
@@ -68,9 +70,10 @@ namespace AccesoDatos
             try
             {
                 cmd.Transaction = trans;
-                Busqueda = ObtenerVenta($"ID={venta.ID}");
+                Busqueda = ObtenerVenta($"v.ID={venta.ID}");
                 if (!Busqueda.Existe){
                     sentencia = "INSERT INTO VENTAS(FECHA, TIPO, CLIENTEID, ESTADO) VALUES(@Fecha, @Tipo, @ClienteID, @Estado) SELECT SCOPE_IDENTITY()";
+                    cmd.CommandText= sentencia;
                     cmd.Parameters.AddWithValue("@Fecha", venta.Fecha);
                     cmd.Parameters.AddWithValue("@Tipo", venta.Tipo);
                     cmd.Parameters.AddWithValue("@ClienteID", venta.ClienteID);
@@ -85,8 +88,9 @@ namespace AccesoDatos
                     cmd.Parameters.AddWithValue("@PRECIOVENTA", detalle.PrecioVenta);
                     cmd.ExecuteNonQuery();
                     trans.Commit();
+                    resultado = 1; //Insertó venta y detalle
                 } else {
-                    if (Busqueda.Estado == "Pendiente"){
+                    if (Busqueda.Estado.Trim() == "Pendiente"){
                         sentencia = "UPDATE VENTAS SET CLIENTEID=@CLIENTEID, TIPO=@TIPO WHERE ID=@ID";
                         cmd.CommandText = sentencia;
                         cmd.Parameters.AddWithValue("@ID", venta.ID);
@@ -99,10 +103,12 @@ namespace AccesoDatos
                             cmd.CommandText = sentencia;
                             cmd.Parameters.Clear();
                             cmd.Parameters.AddWithValue("@ID", detalle.ID);
+                            cmd.Parameters.AddWithValue("@VENTAID", IDVenta);
                             cmd.Parameters.AddWithValue("@PRODUCTOID", detalle.ProductoID);
                             cmd.Parameters.AddWithValue("@CANTIDAD", detalle.Cantidad);
                             cmd.Parameters.AddWithValue("@PRECIOVENTA", detalle.PrecioVenta);
                             cmd.ExecuteNonQuery();
+                            resultado= 2;//Actualizó venta y detalle
                         } else {
                             sentencia = "INSERT INTO DETALLE(VENTAID, PRODUCTOID, CANTIDAD, PRECIOVENTA) VALUES(@VENTAID, @PRODUCTOID, @CANTIDAD, @PRECIOVENTA)";
                             cmd.CommandText = sentencia;
@@ -112,9 +118,13 @@ namespace AccesoDatos
                             cmd.Parameters.AddWithValue("@CANTIDAD", detalle.Cantidad);
                             cmd.Parameters.AddWithValue("@PRECIOVENTA", detalle.PrecioVenta);
                             cmd.ExecuteNonQuery();
+                            resultado = 3;//Actualizó venta e insertó detalle 
                         }
-                        trans.Commit();
+                        
+                    } else {
+                        resultado = 4; //No hace nada porque la venta está cancelada
                     }
+                    trans.Commit();
                 }
                 cnn.Close();
             }

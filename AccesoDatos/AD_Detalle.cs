@@ -70,19 +70,20 @@ namespace AccesoDatos
                 adapter = new SqlDataAdapter(sentencia, cnn);
                 adapter.Fill(datos, "DETALLE");
                 //LINQ: Lenguaje de C# para manejo de consultas (Language Integrated Query)
-                detalle = (from DataRow registro in datos.Tables["Detalle"].Rows
-                            select new EntidadDetalle()
-                            {
-                                ID = Convert.ToInt32(registro[0]),
-                                VentaID = Convert.ToInt32(registro[1]),
-                                ProductoID = Convert.ToInt32(registro[2]),
-                                Descripcion = registro[3].ToString(),
-                                Cantidad = Convert.ToInt32(registro[4]),
-                                PrecioVenta = Convert.ToDecimal(registro[5]),
-                                SubTotal = Convert.ToDecimal(registro[6]),
-                                Existe = true
-                            }
-                             ).FirstOrDefault();
+                if (datos.Tables[0].Rows.Count > 0){
+                    detalle = (from DataRow registro in datos.Tables["Detalle"].Rows
+                               select new EntidadDetalle()
+                               {
+                                   ID = Convert.ToInt32(registro[0]),
+                                   VentaID = Convert.ToInt32(registro[1]),
+                                   ProductoID = Convert.ToInt32(registro[2]),
+                                   Descripcion = registro[3].ToString(),
+                                   Cantidad = Convert.ToInt32(registro[4]),
+                                   PrecioVenta = Convert.ToDecimal(registro[5]),
+                                   SubTotal = Convert.ToDecimal(registro[6]),
+                                   Existe = true
+                               }).FirstOrDefault();
+                }
             }
             catch (Exception e)
             {

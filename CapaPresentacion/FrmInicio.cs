@@ -28,5 +28,11 @@ namespace CapaPresentacion
             FrmProductos productos = new FrmProductos();
             productos.Show(this);
         }
+
+        private void mnuVentas_Click(object sender, EventArgs e)
+        {
+            FrmVentas venta = new FrmVentas();
+            venta.Show(this);
+        }
     }
 }

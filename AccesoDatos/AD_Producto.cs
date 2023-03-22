@@ -94,7 +94,7 @@ namespace AccesoDatos
             SqlCommand comando = new SqlCommand();
             comando.Connection = cnn;
             SqlDataReader datos;
-            string sentencia = "SELECT ID, DESCRIPCION, CANTIDAD, PRECIO FROM PRODUCTOS WHERE BORRADO = 0 ";
+            string sentencia = "SELECT ID, DESCRIPCION, CANTIDAD, PRECIO FROM PRODUCTOS WHERE BORRADO = 0";
             if (!string.IsNullOrEmpty(condicion)){
                 sentencia = $"{sentencia} AND {condicion}";
             }
