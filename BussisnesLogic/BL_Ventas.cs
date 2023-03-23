@@ -10,12 +10,16 @@ namespace BussisnesLogic
     {
         private string _cadenaConexion;
         private string mensaje;
+        private int _iDVenta;
 
         public string Mensaje { get => mensaje; set => mensaje = value; }
+
+        public int IDVenta { get => _iDVenta; set => _iDVenta = value; }
 
         public BL_Ventas(string cadenaConexion) {
             _cadenaConexion = cadenaConexion;
             Mensaje = string.Empty;
+            IDVenta = 0;
         }
 
         public EntidadVenta ObtenerVenta(string condicion = "")
@@ -44,6 +48,7 @@ namespace BussisnesLogic
                     if (Producto.Existe){
                         detalle.PrecioVenta = Producto.Precio + (Producto.Precio * (decimal)0.35);
                         resultado = ADVenta.Insertar(venta, detalle);
+                        _iDVenta = ADVenta.IDVenta;
                         switch (resultado){
                             case 1:
                                 Mensaje = "Venta ingresada satisfactoriamente";

@@ -31,13 +31,13 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmVentas));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.txtIDFactura = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.txtCliente = new System.Windows.Forms.TextBox();
-            this.toolTipBuscar = new System.Windows.Forms.ToolTip(this.components);
-            this.cboTipoVenta = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.cboTipoVenta = new System.Windows.Forms.ComboBox();
+            this.txtCliente = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txtIDFactura = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.toolTipBuscar = new System.Windows.Forms.ToolTip(this.components);
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
@@ -46,7 +46,7 @@
             this.txtDescripcion = new System.Windows.Forms.TextBox();
             this.numCantidad = new System.Windows.Forms.NumericUpDown();
             this.txtPrecio = new System.Windows.Forms.TextBox();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.grdListaVenta = new System.Windows.Forms.DataGridView();
             this.label8 = new System.Windows.Forms.Label();
             this.txtTotal = new System.Windows.Forms.TextBox();
             this.btnCancelar = new System.Windows.Forms.Button();
@@ -57,9 +57,17 @@
             this.btnAgregar = new System.Windows.Forms.Button();
             this.btnBuscarProducto = new System.Windows.Forms.Button();
             this.btnBuscar = new System.Windows.Forms.Button();
+            this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.IDVenta = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.IDProducto = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Descripcion = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Cantidad = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.PrecioVenta = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Subtotal = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Existe = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numCantidad)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.grdListaVenta)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -78,21 +86,33 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Facturación";
             // 
-            // label1
+            // label3
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(16, 27);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(86, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Número Factura:";
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(16, 64);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(76, 13);
+            this.label3.TabIndex = 6;
+            this.label3.Text = "Tipo de venta:";
             // 
-            // txtIDFactura
+            // cboTipoVenta
             // 
-            this.txtIDFactura.Location = new System.Drawing.Point(108, 24);
-            this.txtIDFactura.Name = "txtIDFactura";
-            this.txtIDFactura.Size = new System.Drawing.Size(100, 20);
-            this.txtIDFactura.TabIndex = 1;
+            this.cboTipoVenta.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboTipoVenta.FormattingEnabled = true;
+            this.cboTipoVenta.Items.AddRange(new object[] {
+            "CONTADO",
+            "CREDITO"});
+            this.cboTipoVenta.Location = new System.Drawing.Point(108, 61);
+            this.cboTipoVenta.Name = "cboTipoVenta";
+            this.cboTipoVenta.Size = new System.Drawing.Size(134, 21);
+            this.cboTipoVenta.TabIndex = 5;
+            // 
+            // txtCliente
+            // 
+            this.txtCliente.Location = new System.Drawing.Point(253, 24);
+            this.txtCliente.Name = "txtCliente";
+            this.txtCliente.Size = new System.Drawing.Size(242, 20);
+            this.txtCliente.TabIndex = 3;
             // 
             // label2
             // 
@@ -103,32 +123,22 @@
             this.label2.TabIndex = 2;
             this.label2.Text = "Cliente:";
             // 
-            // txtCliente
+            // txtIDFactura
             // 
-            this.txtCliente.Location = new System.Drawing.Point(253, 24);
-            this.txtCliente.Name = "txtCliente";
-            this.txtCliente.Size = new System.Drawing.Size(242, 20);
-            this.txtCliente.TabIndex = 3;
+            this.txtIDFactura.Location = new System.Drawing.Point(108, 24);
+            this.txtIDFactura.Name = "txtIDFactura";
+            this.txtIDFactura.ReadOnly = true;
+            this.txtIDFactura.Size = new System.Drawing.Size(100, 20);
+            this.txtIDFactura.TabIndex = 1;
             // 
-            // cboTipoVenta
+            // label1
             // 
-            this.cboTipoVenta.FormattingEnabled = true;
-            this.cboTipoVenta.Items.AddRange(new object[] {
-            "CONTADO",
-            "CREDITO"});
-            this.cboTipoVenta.Location = new System.Drawing.Point(108, 61);
-            this.cboTipoVenta.Name = "cboTipoVenta";
-            this.cboTipoVenta.Size = new System.Drawing.Size(134, 21);
-            this.cboTipoVenta.TabIndex = 5;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(16, 64);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(76, 13);
-            this.label3.TabIndex = 6;
-            this.label3.Text = "Tipo de venta:";
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(16, 27);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(86, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Número Factura:";
             // 
             // label4
             // 
@@ -172,6 +182,7 @@
             this.txtIDProducto.Name = "txtIDProducto";
             this.txtIDProducto.Size = new System.Drawing.Size(56, 20);
             this.txtIDProducto.TabIndex = 11;
+            this.txtIDProducto.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtIDProducto_KeyPress);
             // 
             // txtDescripcion
             // 
@@ -201,13 +212,22 @@
             this.txtPrecio.Size = new System.Drawing.Size(100, 20);
             this.txtPrecio.TabIndex = 14;
             // 
-            // dataGridView1
+            // grdListaVenta
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(12, 208);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(585, 256);
-            this.dataGridView1.TabIndex = 18;
+            this.grdListaVenta.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.grdListaVenta.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.ID,
+            this.IDVenta,
+            this.IDProducto,
+            this.Descripcion,
+            this.Cantidad,
+            this.PrecioVenta,
+            this.Subtotal,
+            this.Existe});
+            this.grdListaVenta.Location = new System.Drawing.Point(12, 208);
+            this.grdListaVenta.Name = "grdListaVenta";
+            this.grdListaVenta.Size = new System.Drawing.Size(585, 256);
+            this.grdListaVenta.TabIndex = 18;
             // 
             // label8
             // 
@@ -285,6 +305,7 @@
             this.btnAgregar.Size = new System.Drawing.Size(39, 27);
             this.btnAgregar.TabIndex = 16;
             this.btnAgregar.UseVisualStyleBackColor = true;
+            this.btnAgregar.Click += new System.EventHandler(this.btnAgregar_Click);
             // 
             // btnBuscarProducto
             // 
@@ -295,6 +316,7 @@
             this.btnBuscarProducto.Size = new System.Drawing.Size(39, 27);
             this.btnBuscarProducto.TabIndex = 15;
             this.btnBuscarProducto.UseVisualStyleBackColor = true;
+            this.btnBuscarProducto.Click += new System.EventHandler(this.btnBuscarProducto_Click);
             // 
             // btnBuscar
             // 
@@ -306,6 +328,63 @@
             this.btnBuscar.TabIndex = 4;
             this.toolTipBuscar.SetToolTip(this.btnBuscar, "Buscar cliente");
             this.btnBuscar.UseVisualStyleBackColor = true;
+            this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
+            // 
+            // ID
+            // 
+            this.ID.DataPropertyName = "ID";
+            this.ID.HeaderText = "ID";
+            this.ID.Name = "ID";
+            this.ID.Width = 50;
+            // 
+            // IDVenta
+            // 
+            this.IDVenta.DataPropertyName = "VentaID";
+            this.IDVenta.HeaderText = "VentaID";
+            this.IDVenta.Name = "IDVenta";
+            this.IDVenta.Visible = false;
+            this.IDVenta.Width = 50;
+            // 
+            // IDProducto
+            // 
+            this.IDProducto.DataPropertyName = "ProductoID";
+            this.IDProducto.HeaderText = "Código";
+            this.IDProducto.Name = "IDProducto";
+            this.IDProducto.Width = 50;
+            // 
+            // Descripcion
+            // 
+            this.Descripcion.DataPropertyName = "Descripcion";
+            this.Descripcion.HeaderText = "Descripción";
+            this.Descripcion.Name = "Descripcion";
+            this.Descripcion.Width = 200;
+            // 
+            // Cantidad
+            // 
+            this.Cantidad.DataPropertyName = "Cantidad";
+            this.Cantidad.HeaderText = "Cantidad";
+            this.Cantidad.Name = "Cantidad";
+            this.Cantidad.Width = 50;
+            // 
+            // PrecioVenta
+            // 
+            this.PrecioVenta.DataPropertyName = "PrecioVenta";
+            this.PrecioVenta.HeaderText = "Precio Unitario";
+            this.PrecioVenta.Name = "PrecioVenta";
+            // 
+            // Subtotal
+            // 
+            this.Subtotal.DataPropertyName = "Subtotal";
+            this.Subtotal.HeaderText = "SubTotal";
+            this.Subtotal.Name = "Subtotal";
+            this.Subtotal.Width = 75;
+            // 
+            // Existe
+            // 
+            this.Existe.DataPropertyName = "Existe";
+            this.Existe.HeaderText = "Existe";
+            this.Existe.Name = "Existe";
+            this.Existe.Visible = false;
             // 
             // FrmVentas
             // 
@@ -319,7 +398,7 @@
             this.Controls.Add(this.btnGuardarFactura);
             this.Controls.Add(this.txtTotal);
             this.Controls.Add(this.label8);
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.grdListaVenta);
             this.Controls.Add(this.btnEliminar);
             this.Controls.Add(this.btnAgregar);
             this.Controls.Add(this.btnBuscarProducto);
@@ -339,7 +418,7 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numCantidad)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.grdListaVenta)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -367,12 +446,20 @@
         private System.Windows.Forms.Button btnBuscarProducto;
         private System.Windows.Forms.Button btnAgregar;
         private System.Windows.Forms.Button btnEliminar;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView grdListaVenta;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox txtTotal;
         private System.Windows.Forms.Button btnGuardarFactura;
         private System.Windows.Forms.Button btnBuscarFactura;
         private System.Windows.Forms.Button btnEliminarFactura;
         private System.Windows.Forms.Button btnCancelar;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn IDVenta;
+        private System.Windows.Forms.DataGridViewTextBoxColumn IDProducto;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Descripcion;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Cantidad;
+        private System.Windows.Forms.DataGridViewTextBoxColumn PrecioVenta;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Subtotal;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Existe;
     }
 }

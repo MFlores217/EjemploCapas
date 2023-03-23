@@ -10,6 +10,7 @@ namespace Entidades
         private string nombre;
         private string apellido;
         private string telefono;
+        private string nombreCompleto;
         private bool existe;
 
         public int ID { 
@@ -31,6 +32,10 @@ namespace Entidades
         public bool Existe { 
             get => existe; 
             set => existe = value; 
+        }
+        public string NombreCompleto { 
+            get => $"{nombre} {apellido}"; 
+            set => nombreCompleto = value; 
         }
 
         public EntidadCliente(){

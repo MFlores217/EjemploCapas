@@ -11,10 +11,14 @@ namespace AccesoDatos
     public class AD_Ventas
     {
         private string _cadenaConexion;
+        private int iDVenta;
+
+        public int IDVenta { get => IDVenta; set => IDVenta = value; }
 
         public AD_Ventas(string cadenaConexion)
         {
             _cadenaConexion = cadenaConexion;
+            iDVenta = 0;
         }
 
         public EntidadVenta ObtenerVenta(string condicion = "")
@@ -67,6 +71,7 @@ namespace AccesoDatos
             cmd.Connection= cnn;
             cnn.Open();
             SqlTransaction trans = cnn.BeginTransaction();
+            iDVenta = venta.ID;
             try
             {
                 cmd.Transaction = trans;
